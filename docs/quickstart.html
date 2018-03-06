@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Quickstart &#8212; discord.py 1.0.0a documentation</title>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/custom.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Migrating to v1.0" href="migrating.html" />
+    <link rel="prev" title="Introduction" href="intro.html" />
+   
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head><body>
+  
+  
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="migrating.html" title="Migrating to v1.0"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">discord.py 1.0.0a documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="quickstart">
+<span id="id1"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p>This page gives a brief introduction to the library. It assumes you have the library installed,
+if you don’t check the <a class="reference internal" href="intro.html#installing"><span class="std std-ref">Installing</span></a> portion.</p>
+<div class="section" id="a-minimal-bot">
+<h2>A Minimal Bot<a class="headerlink" href="#a-minimal-bot" title="Permalink to this headline">¶</a></h2>
+<p>Let’s make a bot that replies to a specific message and walk you through it.</p>
+<p>It looks something like this:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">discord</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">discord</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+
+<span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_ready</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;We have logged in as </span><span class="si">{0.user}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">client</span><span class="p">))</span>
+
+<span class="nd">@client</span><span class="o">.</span><span class="n">event</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">on_message</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">author</span> <span class="o">==</span> <span class="n">client</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;$hello&#39;</span><span class="p">):</span>
+        <span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s1">&#39;Hello!&#39;</span><span class="p">)</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;your token here&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Let’s name this file <code class="docutils literal notranslate"><span class="pre">example_bot.py</span></code>. Make sure not to name it <code class="docutils literal notranslate"><span class="pre">discord.py</span></code> as that’ll conflict
+with the library.</p>
+<p>There’s a lot going on here, so let’s walk you through it step by step.</p>
+<ol class="arabic">
+<li><p>The first line just imports the library, if this raises a <cite>ModuleNotFoundError</cite> or <cite>ImportError</cite>
+then head on over to <a class="reference internal" href="intro.html#installing"><span class="std std-ref">Installing</span></a> section to properly install.</p></li>
+<li><p>Next, we create an instance of a <a class="reference internal" href="api.html#discord.Client" title="discord.Client"><code class="xref py py-class docutils literal notranslate"><span class="pre">Client</span></code></a>. This client is our connection to Discord.</p></li>
+<li><p>We then use the <a class="reference internal" href="api.html#discord.Client.event" title="discord.Client.event"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Client.event()</span></code></a> decorator to register an event. This library has many events.
+Since this library is asynchronous, we do things in a “callback” style manner.</p>
+<p>A callback is essentially a function that is called when something happens. In our case,
+the <a class="reference internal" href="api.html#discord.on_ready" title="discord.on_ready"><code class="xref py py-func docutils literal notranslate"><span class="pre">on_ready()</span></code></a> event is called when the bot has finished logging in and setting things
+up and the <a class="reference internal" href="api.html#discord.on_message" title="discord.on_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">on_message()</span></code></a> event is called when the bot has received a message.</p>
+</li>
+<li><p>Since the <a class="reference internal" href="api.html#discord.on_message" title="discord.on_message"><code class="xref py py-func docutils literal notranslate"><span class="pre">on_message()</span></code></a> event triggers for <em>every</em> message received, we have to make
+sure that we ignore messages from ourselves. We do this by checking if the <a class="reference internal" href="api.html#discord.Message.author" title="discord.Message.author"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Message.author</span></code></a>
+is the same as the <a class="reference internal" href="api.html#discord.Client.user" title="discord.Client.user"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Client.user</span></code></a>.</p></li>
+<li><p>Afterwards, we check if the <a class="reference internal" href="api.html#discord.Message.content" title="discord.Message.content"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message.content</span></code></a> starts with <code class="docutils literal notranslate"><span class="pre">'$hello'</span></code>. If it is,
+then we reply in the channel it was used in with <code class="docutils literal notranslate"><span class="pre">'Hello!'</span></code>.</p></li>
+<li><p>Finally, we run the bot with our login token. If you need help getting your token or creating a bot,
+look in the <a class="reference internal" href="discord.html#discord-intro"><span class="std std-ref">Creating a Bot Account</span></a> section.</p></li>
+</ol>
+<p>Now that we’ve made a bot, we have to <em>run</em> the bot. Luckily, this is simple since this is just a
+Python script, we can run it directly.</p>
+<p>On Windows:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ py -3 example_bot.py
+</pre></div>
+</div>
+<p>On other systems:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ python3 example_bot.py
+</pre></div>
+</div>
+<p>Now you can try playing around with your basic bot.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Quickstart</a><ul>
+<li><a class="reference internal" href="#a-minimal-bot">A Minimal Bot</a></li>
+</ul>
+</li>
+</ul>
+<!-- purposefully empty -->
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <div class="footer">
+    &copy; Copyright 2015-2017, Rapptz.
+    Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.1.
+  </div>
+  
+  </body>
+</html>

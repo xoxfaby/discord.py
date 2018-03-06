@@ -1,0 +1,102 @@
+.. _ext_commands_tutorial:
+
+Your First Discord Bot
+========================
+
+In this tutorial we're going to walk you through creating your very first Discord bot.
+
+By the end of this tutorial you'll have a pretty stable bot base to get started on and hopefully walk out
+with enough knowledge to expand your bot beyond what is covered here.
+
+This page assumes that you've :ref:`installed the library <installing>` and that you've made a
+:ref:`Bot User <discord-intro>`.
+
+You can tell you've successfully installed discord.py by running the following in a shell (or cmd.exe on Windows):
+
+.. code-block:: shell
+
+    $ python -m discord --version
+
+If the library is installed, then you should see both the library version and the Python version being printed.
+If you get something like "No module found" then that means you didn't install the library properly.
+
+This tutorial is written for discord.py v|release| and Python 3.5 or later. If your discord.py version doesn't match then
+you can either update the library or check to see if the tutorial is available in your version by
+clicking on the version switcher on the bottom right corner of this document.
+
+See :ref:`installing` for information on how to install or update discord.py.
+
+.. admonition:: External Help
+    :class: helpful
+
+    If you're having some trouble going through this tutorial, it's recommended that you
+    join the `#python_discord-py <https://discord.gg/discord-api>`_ channel in the
+    `Discord API <https://discord.gg/discord-api>`_ server.
+
+Basic Commands
+----------------
+
+Since bots can be complicated, we should probably organise our bot into a folder.
+
+Before doing anything with our bot, we should probably separate our token that we've received from
+:ref:`discord-intro` into a separate file.
+
+Let's call this file ``credentials.py``.
+
+.. code-block:: python3
+
+    token = 'put your token here in quotes'
+
+Now that we have a file with the token in it let's go ahead and get started by
+creating a :class:`.Bot` instance and importing the module.
+
+We'll add a single command that tells us "hello" as well to whet our appetite.
+
+Let's call this file ``bot.py``.
+
+.. code-block:: python3
+
+    import discord
+    from discord.ext import commands
+
+    bot = commands.Bot(command_prefix='$')
+
+    @bot.command()
+    async def hello(ctx):
+        await ctx.send('Hello!')
+
+    bot.run()
+
+<some cruddy intro here>
+
+TOC:
+
+- Your First Bot
+    - Part I: Basic Commands
+        - basically the global @bot.command() decorator w/ no params + show default help
+    - Part II: Taking User Input
+        - basically some commands that take input
+    - Part IV: The Context
+        - Showcase something that uses the context.
+    - Part IV: Error Handling
+        - basically showcase how error handling is done
+    - Part V: Cogs
+        - Split up the bot into cogs and explain that whole shebang.
+
+- Commands
+    - Parameters
+        - Go into detail about the parameters work
+        - Things like custom parsers, how the types work etc.
+    - Groups
+        - Go into detail about groups work
+        - Invocation order etc?
+
+- Advanced Usage
+    - Command Return Values
+        - explain how to invoke another command and how it's return value can be used
+
+    not sure what else would go here tbh
+
+API Reference:
+
+<dump>
